@@ -22,19 +22,42 @@ World::~World()
         delete[] mist;
     }
 }
+
+pair<int, int> World::getSize()
+{
+    return make_pair(this->height, this->width);
+}
+
+void World::loadMaze(int **maze)
+{
+    this->mazeMap = maze;
+    for (int i = 0; i < this->height; i++)
+    {
+        for (int j = 0; j < this->width; j++)
+        {
+            int temp=mazeMap[i][j]+1;
+            mazeMap[i][j] = temp;
+        }
+    }
+}
+void World::loadEmpty(vector<pair<int, int>> empty)
+{
+    this->emptyCell = empty;
+    cout << "size of empty cell: " << empty.size() << endl;
+}
 void World::display(Player player)
 {
     cout << "Screen:" << endl;
     cout << "command: " << player.getCommand() << endl;
     cout << "new player pos: " << player.getPos().first << "," << player.getPos().second << endl;
     cout << "empty cell size: " << this->emptyCell.size() << endl;
-    updateMist(player.getPos(),2);
+    updateMist(player.getPos(), 2);
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-            int cell = testMap[i][j] * mist[i][j];
-            // cout<<cell;
+            // int cell = testMap[i][j] * mist[i][j];
+            int cell = mazeMap[i][j] * mist[i][j];
             switch (cell)
             {
             case 0:
@@ -64,8 +87,8 @@ void World::display()
     {
         for (int j = 0; j < this->width; j++)
         {
-            int cell = testMap[i][j] * mist[i][j];
-            
+            // int cell = testMap[i][j] * mist[i][j];
+            int cell = mazeMap[i][j] * mist[i][j];
             // cout<<cell;
             switch (cell)
             {
@@ -179,7 +202,8 @@ void World::addCreature(Creature newCreature)
 void World::addPlayer(Player player)
 {
     pair<int, int> playerPos = player.getPos();
-    this->testMap[playerPos.first][playerPos.second] = 3;
+    // this->testMap[playerPos.first][playerPos.second] = 3;
+    this->mazeMap[playerPos.first][playerPos.second] = 3;
 }
 
 void World::updateCreature()
@@ -187,7 +211,8 @@ void World::updateCreature()
     map<int, Creature>::iterator iter;
     for (iter = creatureList.begin(); iter != creatureList.end(); iter++)
     {
-        testMap[iter->second.getPos().first][iter->second.getPos().second] = iter->first;
+        // testMap[iter->second.getPos().first][iter->second.getPos().second] = iter->first;
+        mazeMap[iter->second.getPos().first][iter->second.getPos().second] = iter->first;
     }
 }
 void World::updateMist(pair<int, int> pos, int range)
@@ -234,10 +259,11 @@ void World::updatePlayer(Player &player)
         {
             player.setPos(newPos);
             this->emptyCell.erase(emptyCell.begin() + i);
-            this->testMap[oldPos.first][oldPos.second] = 2;
-            this->testMap[newPos.first][newPos.second] = 3;
+            // this->testMap[oldPos.first][oldPos.second] = 2;
+            // this->testMap[newPos.first][newPos.second] = 3;
+            this->mazeMap[oldPos.first][oldPos.second] = 2;
+            this->mazeMap[newPos.first][newPos.second] = 3;
             this->emptyCell.insert(emptyCell.begin() + i, oldPos);
-            
         }
         else
         {
