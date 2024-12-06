@@ -28,6 +28,11 @@ public:
     World(int, int);
     ~World();
 
+    pair<int,int> getSize();
+    
+    void loadMaze(int**);
+    void loadEmpty(vector<pair<int,int>>);
+
     void makeTestMap();
     void makeMist();
     void addCreature(Creature);
