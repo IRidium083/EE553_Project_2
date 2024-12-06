@@ -24,6 +24,7 @@ public:
     void generate();                // Entry function to generate the maze
     int** getMaze();                // Return the maze grid for external modifications
     void display();                 // Display the maze
+    pair<int,int> getSize();
     vector<pair<int, int>> getEmptyCells(); // Get all path coordinates
 
     static Maze createMazeByDifficulty(const string& difficulty); // Create a maze based on difficulty

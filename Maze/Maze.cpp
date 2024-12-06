@@ -93,11 +93,11 @@ vector<pair<int, int>> Maze::getEmptyCells()
         {
             if (grid[i][j] == 1) 
             {
-                emptyCells.emplace_back(i, j); // Add path cell to the vector
+                emptyCells.push_back(make_pair(i,j)); // Add path cell to the vector
             }
         }
     }
-
+    cout<<"emptycell size: "<<emptyCells.size()<<endl;
     return emptyCells;
 }
 
@@ -153,6 +153,11 @@ string Maze::selectDifficulty()
     }
 
     return difficulty;
+}
+
+//return size of the maze
+pair<int,int> Maze::getSize(){
+    return make_pair(this->height,this->width);
 }
 
 void Maze::display()
