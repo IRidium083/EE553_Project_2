@@ -18,7 +18,8 @@ private:
     int **testMap;
     int **mazeMap;
     int **window;
-    //Player player;
+    int **mist;
+    // Player player;
     vector<pair<int, int>> emptyCell;
     map<int, Creature> creatureList;
     int turn;
@@ -28,6 +29,7 @@ public:
     ~World();
 
     void makeTestMap();
+    void makeMist();
     void addCreature(Creature);
     void addPlayer(Player);
 
@@ -35,11 +37,12 @@ public:
     void display();
     void displayWindow();
 
+    void updateMist(pair<int, int> pos,int range);
     void updateCreature();
     void updatePlayer(Player &);
     void updateWindow();
 
-    void inCombat(Player&, Creature&);
+    void inCombat(Player &, Creature &);
 };
 
 #endif

@@ -15,11 +15,11 @@ World::~World()
         {
             delete[] testMap[i];
             delete[] mazeMap[i];
-            delete[] window[i];
+            delete[] mist[i];
         }
         delete[] testMap;
         delete[] mazeMap;
-        delete[] window;
+        delete[] mist;
     }
 }
 void World::display(Player player)
@@ -28,22 +28,26 @@ void World::display(Player player)
     cout << "command: " << player.getCommand() << endl;
     cout << "new player pos: " << player.getPos().first << "," << player.getPos().second << endl;
     cout << "empty cell size: " << this->emptyCell.size() << endl;
+    updateMist(player.getPos(),2);
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-            int cell = testMap[i][j];
+            int cell = testMap[i][j] * mist[i][j];
             // cout<<cell;
             switch (cell)
             {
             case 0:
-                cout << setw(2) << "#"; // 0 for wall
+                cout << setw(2) << "~"; // 0 for mist
                 break;
             case 1:
-                cout << setw(2) << " "; // 1 for empty cell
+                cout << setw(2) << "#"; // 1 for wall
                 break;
             case 2:
-                player.displayCreature(); // 2 for player
+                cout << setw(2) << " "; // 2 for empty cell
+                break;
+            case 3:
+                player.displayCreature(); // 3 for player
                 break;
             default:
                 this->creatureList.at(cell).displayCreature(); // IDs in the creature list
@@ -60,15 +64,21 @@ void World::display()
     {
         for (int j = 0; j < this->width; j++)
         {
-            int cell = testMap[i][j];
+            int cell = testMap[i][j] * mist[i][j];
+            
             // cout<<cell;
             switch (cell)
             {
             case 0:
-                cout << setw(2) << "#"; // 0 for wall
+                cout << setw(2) << "~"; // ~ for mist
                 break;
             case 1:
-                cout << setw(2) << " "; // 1 for empty cell
+                cout << setw(2) << "#"; // 1 for wall
+                break;
+            case 2:
+                cout << setw(2) << " "; // 2 for empty cell
+                break;
+            case 3:
                 break;
             default:
                 this->creatureList.at(cell).displayCreature(); // IDs in the creature list
@@ -105,10 +115,11 @@ void World::displayWindow()
         cout << endl;
     }
 }
+
 void World::makeTestMap()
 {
     cout << "start create test map" << endl;
-    testMap = new int *[height];
+    this->testMap = new int *[height];
     for (int i = 0; i < height; i++)
     {
         this->testMap[i] = new int[width];
@@ -121,16 +132,34 @@ void World::makeTestMap()
         {
             if (i == 0 || j == 0 || i == height - 1 || j == width - 1)
             {
-                this->testMap[i][j] = 0; // 0 for wall
+                this->testMap[i][j] = 1; // 1 for wall
             }
             else
             {
-                this->testMap[i][j] = 1; // 1 for empty cell
+                this->testMap[i][j] = 2; // 2 for empty cell
                 this->emptyCell.push_back(make_pair(i, j));
             }
         }
     }
     cout << "test map created" << endl;
+}
+
+void World::makeMist()
+{
+    cout << "start create mist" << endl;
+    this->mist = new int *[height];
+    for (int i = 0; i < height; i++)
+    {
+        this->mist[i] = new int[width];
+    }
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            this->mist[i][j] = 0; // 0: mist in cell, 1: no mist in cell
+        }
+    }
+    cout << "mist created" << endl;
 }
 
 void World::addCreature(Creature newCreature)
@@ -150,7 +179,7 @@ void World::addCreature(Creature newCreature)
 void World::addPlayer(Player player)
 {
     pair<int, int> playerPos = player.getPos();
-    this->testMap[playerPos.first][playerPos.second] = 2;
+    this->testMap[playerPos.first][playerPos.second] = 3;
 }
 
 void World::updateCreature()
@@ -161,7 +190,19 @@ void World::updateCreature()
         testMap[iter->second.getPos().first][iter->second.getPos().second] = iter->first;
     }
 }
-
+void World::updateMist(pair<int, int> pos, int range)
+{
+    for (int i = pos.first - range; i <= pos.first + range; i++)
+    {
+        for (int j = pos.second - range; j <= pos.second + range; j++)
+        {
+            if (i >= 0 && i < height && j >= 0 && j < width)
+            {
+                this->mist[i][j] = 1;
+            }
+        }
+    }
+}
 void World::updatePlayer(Player &player)
 {
 
@@ -193,9 +234,10 @@ void World::updatePlayer(Player &player)
         {
             player.setPos(newPos);
             this->emptyCell.erase(emptyCell.begin() + i);
-            this->testMap[oldPos.first][oldPos.second] = 1;
-            this->testMap[newPos.first][newPos.second] = 2;
+            this->testMap[oldPos.first][oldPos.second] = 2;
+            this->testMap[newPos.first][newPos.second] = 3;
             this->emptyCell.insert(emptyCell.begin() + i, oldPos);
+            
         }
         else
         {
