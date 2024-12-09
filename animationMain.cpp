@@ -1,7 +1,7 @@
-#include "animation/OpeningAnimation.h"
-#include "animation/VictoryAnimation.h"
-#include "animation/AnimationTools.h"
-#include "animation/DeathAnimation.h"
+#include "Animation/OpeningAnimation.h"
+#include "Animation/VictoryAnimation.h"
+#include "Animation/AnimationTools.h"
+#include "Animation/DeathAnimation.h"
 
 int main() 
 {

@@ -4,6 +4,7 @@
 int main()
 {
     Maze maze = Maze::createMazeByDifficulty("easy");
+    //Maze maze = Maze::createMazeBySize(30,50);
     int height = maze.getSize().first;
     int width = maze.getSize().second;
     World world(height, width);
@@ -15,7 +16,7 @@ int main()
     cout << "maze loaded, size: " << world.getSize().first << "," << world.getSize().second << endl;
     
     world.display();
-    for (int i = 4; i < 4; i++)
+    for (int i = 4; i < 8; i++)
     { // cratrue ID starts from 4
 
         Creature newCreatre("Monster" + i, i);
