@@ -15,7 +15,7 @@ int main()
     cout << "maze loaded, size: " << world.getSize().first << "," << world.getSize().second << endl;
     
     world.display();
-    for (int i = 4; i < 10; i++)
+    for (int i = 4; i < 4; i++)
     { // cratrue ID starts from 4
 
         Creature newCreatre("Monster" + i, i);
@@ -31,12 +31,13 @@ int main()
     world.display();
 
     Player newPlayer;
-    newPlayer.setPos(make_pair(5, 5));
+    newPlayer.setPos(make_pair(2,2));
     newPlayer.setVisual('P', 2);
     cout << "Add player" << endl;
     world.addPlayer(newPlayer);
     cout << "Player added" << endl;
     world.display(newPlayer);
+    cout<<"Start game"<<endl;
     while (1)
     {
         newPlayer.readCommand();
@@ -48,5 +49,6 @@ int main()
         world.display(newPlayer);
         Sleep(10);
     }
+    
     return 0;
 }
