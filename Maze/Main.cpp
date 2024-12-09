@@ -8,10 +8,9 @@ using namespace std;
 
 int main() 
 {
-    // 使用 Maze 類中的靜態函數選擇難度
     string difficulty = Maze::selectDifficulty();
-
-    // 根據難度生成迷宮
+    
+    // Chose how difiicult the maze is
     Maze maze = Maze::createMazeByDifficulty(difficulty); 
     maze.display(); 
     vector<pair<int, int>> emptyCells = maze.getEmptyCells();
