@@ -3,11 +3,11 @@
 int main()
 {
     cout << "Game Start." << endl;
-    World world(35, 15);
-
+    World world(25, 15);
+    world.makeMist();
     world.makeTestMap();
-    for (int i = 3; i < 12; i++)
-    { // cratrue ID starts from 3
+    for (int i = 4; i < 15; i++)
+    { // cratrue ID starts from 4
         Creature newCreatre("Monster" + i, i);
         newCreatre.setVisual('M', 1);
         world.addCreature(newCreatre);
