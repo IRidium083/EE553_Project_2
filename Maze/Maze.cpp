@@ -105,26 +105,30 @@ vector<pair<int, int>> Maze::getEmptyCells()
 // Create a maze based on difficulty
 Maze Maze::createMazeByDifficulty(const string& difficulty) 
 {
-    int width, height;
+    int width, height, extraPaths;
 
     if (difficulty == "easy") 
     {
-        width = 15;  // Small size
-        height = 15;
+        width = 20;  // Small size
+        height = 20;
+        extraPaths = 10; // Extra paths for easy
     } 
     else if (difficulty == "medium") 
     {
-        width = 25;  // Medium size
-        height = 25;
+        width = 30;  // Medium size
+        height = 30;
+        extraPaths = 30; // Extra paths for easy
     } 
     else if (difficulty == "hard") 
     {
-        width = 35;  // Large size
-        height = 35;
+        width = 40;  // Large size
+        height = 40;
+        extraPaths = 50; // Extra paths for easy
     } 
 
     Maze maze(width, height);
     maze.generate();
+    maze.addExtraConnections(extraPaths); // Add extra connections based on difficulty
     return maze;
 }
 
@@ -178,5 +182,23 @@ void Maze::display()
             }
         }
         cout << "\n";
+    }
+}
+
+void Maze::addExtraConnections(int count) 
+{
+    srand(time(0)); // Random seed
+    for (int i = 0; i < count; ++i) 
+    {
+        // Randomly choose a wall
+        int x = rand() % width;
+        int y = rand() % height;
+
+        // Make sure it is not out of range
+        if (x > 1 && x < width - 1 && y > 1 && y < height - 1 && grid[y][x] == 0) 
+        {
+            // Make the wall become round
+            grid[y][x] = 1;
+        }
     }
 }
