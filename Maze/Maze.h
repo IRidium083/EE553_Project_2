@@ -24,7 +24,8 @@ public:
     void generate();                // Entry function to generate the maze
     int** getMaze();                // Return the maze grid for external modifications
     void display();                 // Display the maze
-    pair<int,int> getSize();
+    Maze createMazeBySize(int width, int height); // The temporary function is convenient for changing the maze size when needed
+    pair<int,int> getSize();       //return size of the maze
     vector<pair<int, int>> getEmptyCells(); // Get all path coordinates
     void addExtraConnections(int count); // Add extra connections (break additional walls) to increase the maze's complexity
     vector<pair<int, int>>getStartAndEndPoints(); //// Generate random start and end points

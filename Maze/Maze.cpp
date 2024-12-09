@@ -28,6 +28,15 @@ Maze::Maze(int width, int height) : width(width), height(height)
     }
 }
 
+// The temporary function is convenient for changing the maze size when needed
+Maze Maze::createMazeBySize(int width, int height) 
+{
+    Maze maze(width, height); // Create a Maze object with the specified dimensions
+    maze.generate();          // Generate the maze
+    return maze;              // Return the generated maze
+}
+
+
 // Destructor: free the dynamically allocated memory
 Maze::~Maze() 
 {
