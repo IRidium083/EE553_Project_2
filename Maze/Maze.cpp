@@ -7,6 +7,7 @@
 // Constructor: dynamically allocate the 2D array for the maze
 Maze::Maze(int width, int height) : width(width), height(height) 
 {
+    cout << test;
     grid = new int*[height];
     for (int i = 0; i < height; ++i) 
     {
