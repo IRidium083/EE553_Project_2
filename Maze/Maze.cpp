@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <stdexcept>
 #include <cstdlib>
+#include <vector>
+#include <ctime>
+#include <cmath>
+#include <utility>
+#include <iostream>
 
 // Constructor: dynamically allocate the 2D array for the maze
 Maze::Maze(int width, int height) : width(width), height(height) 
@@ -129,6 +134,7 @@ Maze Maze::createMazeByDifficulty(const string& difficulty)
     Maze maze(width, height);
     maze.generate();
     maze.addExtraConnections(extraPaths); // Add extra connections based on difficulty
+    maze.getStartAndEndPoints();
     return maze;
 }
 
@@ -175,10 +181,20 @@ void Maze::display()
                 // Represent paths with narrow characters
                 cout << "  ";
             } 
-            else 
+            else if (grid[i][j] == 0) 
             {
                 // Represent walls with continuous wide characters
                 cout << "@@";
+            }
+            else if (grid[i][j] == -1) 
+            {
+                // Represent the start point
+                cout << " S";
+            }
+            else if (grid[i][j] == -2) 
+            {
+                // Represent the end point
+                cout << " E";
             }
         }
         cout << "\n";
@@ -201,4 +217,47 @@ void Maze::addExtraConnections(int count)
             grid[y][x] = 1;
         }
     }
+}
+
+// Generate random start and end points
+vector<pair<int, int>> Maze::getStartAndEndPoints() 
+{
+    pair<int, int> start, end;
+    srand(time(0));
+
+    // Generate a random start point
+    while (true) 
+    {
+        int x = rand() % width;
+        int y = rand() % height;
+
+        if (grid[y][x] == 1) 
+        {
+            start = {x, y};
+            grid[y][x] = -1; // Mark the start cell as -1
+            break;
+        }
+    }
+
+    // Generate a random end point, ensuring it is far from the start and reachable
+    while (true) 
+    {
+        int x = rand() % width;
+        int y = rand() % height;
+
+        if (grid[y][x] == 1) 
+        {
+            end = {x, y};
+            int distance = abs(start.first - end.first) + abs(start.second - end.second);
+
+            if (start != end && distance >= (width + height) / 4) // Ensure the end point is not the same as the start and is sufficiently far away.
+
+            {
+                grid[y][x] = -2; // Mark the end cell as -2
+                break;
+            }
+        }
+    }
+
+    return {start, end};
 }

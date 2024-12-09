@@ -27,6 +27,7 @@ public:
     pair<int,int> getSize();
     vector<pair<int, int>> getEmptyCells(); // Get all path coordinates
     void addExtraConnections(int count); // Add extra connections (break additional walls) to increase the maze's complexity
+    vector<pair<int, int>>getStartAndEndPoints(); //// Generate random start and end points
 
     static Maze createMazeByDifficulty(const string& difficulty); // Create a maze based on difficulty
     static string selectDifficulty(); // Select difficulty level
