@@ -8,12 +8,10 @@ class Monster : public Creature
 {
 private:
     int speed;
+    
 
 public:
-    Monster();
+    Monster(string, int);
 
-    int getSpeed();
-
-    void setSpeed(int);
 };
 #endif
