@@ -1,10 +1,15 @@
 #include "World/World.h"
 #include "Maze/Maze.h"
+#include "Animation/AnimationManager.h"
 #include <chrono>
 #include <thread>
 
 int main()
 {
+    // Play the opening animation
+    OpeningAnimation opening;
+    opening.play();
+
     Maze maze = Maze::createMazeByDifficulty("easy");
     //Maze maze = Maze::createMazeBySize(30,50);
     int height = maze.getSize().first;
@@ -51,7 +56,16 @@ int main()
         this_thread::sleep_for(std::chrono::milliseconds(10));
         world.display(newPlayer);
         this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        // // Play the dead animation
+        // DeathAnimation deathending;
+        // deathending.play();
     }
+
+
+    // Play the ending animation
+    VictoryAnimation ending;
+    ending.play();
     
     return 0;
 }

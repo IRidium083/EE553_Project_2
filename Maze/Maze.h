@@ -28,8 +28,8 @@ public:
     vector<pair<int, int>> getEmptyCells(); // Get all path coordinates
     void addExtraConnections(int count); // Add extra connections (break additional walls) to increase the maze's complexity
     vector<pair<int, int>>getStartAndEndPoints(); //// Generate random start and end points
-    Maze createMazeBySize(int width, int height); // The temporary function is convenient for changing the maze size when needed
 
+    static Maze createMazeBySize(int width, int height); // The temporary function is convenient for changing the maze size when needed
     static Maze createMazeByDifficulty(const string& difficulty); // Create a maze based on difficulty
     static string selectDifficulty(); // Select difficulty level
 };
