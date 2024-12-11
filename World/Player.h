@@ -10,9 +10,7 @@ private:
 public:
     Player();
     Player(string, pair<int, int>);
-    void readCommands();
     void readCommand();
-    vector<char> getCommands();
     char getCommand();
 };
 
