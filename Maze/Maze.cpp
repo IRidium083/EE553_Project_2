@@ -189,22 +189,22 @@ void Maze::display()
             if (grid[i][j] == 1)
             {
                 // Represent paths with narrow characters
-                cout << "  ";
+                cout << " ";
             }
             else if (grid[i][j] == 0)
             {
                 // Represent walls with continuous wide characters
-                cout << "@@";
+                cout << "@";
             }
             else if (grid[i][j] == -1)
             {
                 // Represent the start point
-                cout << " S";
+                cout << "S";
             }
             else if (grid[i][j] == -2)
             {
                 // Represent the end point
-                cout << " E";
+                cout << "E";
             }
         }
         cout << "\n";
@@ -244,7 +244,7 @@ vector<pair<int, int>> Maze::getStartAndEndPoints()
         if (grid[y][x] == 1)
         {
             start = {x, y};
-            grid[y][x] = -1; // Mark the start cell as -1
+            //grid[y][x] = -1; // Mark the start cell as -1
             break;
         }
     }
@@ -263,7 +263,7 @@ vector<pair<int, int>> Maze::getStartAndEndPoints()
             if (start != end && distance >= (width + height) / 4) // Ensure the end point is not the same as the start and is sufficiently far away.
 
             {
-                grid[y][x] = -2; // Mark the end cell as -2
+                //grid[y][x] = -2; // Mark the end cell as -2
                 break;
             }
         }

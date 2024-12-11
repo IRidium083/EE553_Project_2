@@ -4,11 +4,11 @@ Description: World class. Includes map, creatures, and animation. And their inte
 */
 
 #include "World.h"
+#include "Animation/AnimationManager.h"
 World::World(int width, int height)
 {
     this->width = width;
     this->height = height;
-    cout << "test" << endl;
     this->turn = 0;
     srand(time(0));
 };
@@ -29,14 +29,11 @@ World::~World()
     }
 }
 
-void World::debug(bool isDebug)
-{
-    this->DEBUG = isDebug;
-}
 void World::addTurn()
 {
     this->turn++;
 }
+
 pair<int, int> World::getSize()
 {
     return make_pair(this->height, this->width);
@@ -61,20 +58,19 @@ void World::loadEmpty(vector<pair<int, int>> empty)
 }
 void World::display(Player *player)
 {
-    cout << "Screen:" << endl;
-    cout << "command: " << player->getCommand() << endl;
-    cout << "new player pos: " << player->getPos().first << "," << player->getPos().second << endl;
-    cout << "empty cell size: " << this->emptyCell.size() << endl;
     updateMist(player->getPos(), 2);
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-
-            //   int  cell = mazeMap[i][j] * mist[i][j];
-            int cell = testMap[i][j] * mist[i][j];
+            int cell = mazeMap[i][j]; // * mist[i][j];
+            // int cell = testMap[i][j] * mist[i][j];
             switch (cell)
             {
+            case -1:
+                break;
+            case -2:
+                break;
             case 0:
                 cout << setw(2) << "~"; // 0 for mist
                 break;
@@ -95,21 +91,22 @@ void World::display(Player *player)
         cout << endl;
     }
     cout << "Turn: " << this->turn << endl;
+    cout << "Player HP: " << player->getHitPoint() << endl;
 }
 void World::display()
 {
-    cout << "Screen:" << endl;
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-
-            int cell = testMap[i][j] * mist[i][j];
-
-            //    int cell = mazeMap[i][j] * mist[i][j];
-
+            // int cell = testMap[i][j] * mist[i][j];
+            int cell = mazeMap[i][j]; // * mist[i][j];
             switch (cell)
             {
+            case -1:
+                break;
+            case -2:
+                break;
             case 0:
                 cout << setw(2) << "~"; // ~ for mist
                 break;
@@ -119,7 +116,7 @@ void World::display()
             case 2:
                 cout << setw(2) << " "; // 2 for empty cell
                 break;
-            case 3: 
+            case 3:
                 break;
             default:
                 this->creatureList.at(cell)->displayCreature(); // IDs in the creature list
@@ -205,13 +202,12 @@ void World::makeMist()
 
 void World::addCreature(Creature *newCreature)
 {
-    // find a empty cell randomly
-    int i = rand() % emptyCell.size();
+
+    int i = rand() % emptyCell.size(); // find a empty cell randomly
 
     pair<int, int> newPos = emptyCell.at(i);
 
-    // erase the cell from empty cell vector
-    emptyCell.erase(emptyCell.begin() + i);
+    emptyCell.erase(emptyCell.begin() + i); // erase the cell from empty cell vector
 
     newCreature->setPos(newPos);
     int ID = newCreature->getID();
@@ -222,11 +218,8 @@ void World::addCreature(Creature *newCreature)
 void World::addPlayer(Player *player)
 {
     pair<int, int> playerPos = player->getPos();
-    // if (DEBUG)
-    //     this->testMap[playerPos.first][playerPos.second] = 3;
-    // else
-    //     this->mazeMap[playerPos.first][playerPos.second] = 3;
-    this->testMap[playerPos.first][playerPos.second] = 3;
+    this->mazeMap[playerPos.first][playerPos.second] = 3;
+    // this->testMap[playerPos.first][playerPos.second] = 3;
 }
 
 void World::updateCreature()
@@ -237,8 +230,8 @@ void World::updateCreature()
     {
         cout << "check creature: " << iter->first << iter->second->getName() << endl;
 
-        testMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
-        // mazeMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
+        // testMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
+        mazeMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
     }
 }
 void World::updateMist(pair<int, int> pos, int range)
@@ -285,10 +278,10 @@ void World::updatePlayer(Player *player)
         {
             player->setPos(newPos);
             this->emptyCell.erase(emptyCell.begin() + i);
-            //     this->mazeMap[oldPos.first][oldPos.second] = 2;
-            //     this->mazeMap[newPos.first][newPos.second] = 3;
-            this->testMap[oldPos.first][oldPos.second] = 2;
-            this->testMap[newPos.first][newPos.second] = 3;
+            this->mazeMap[oldPos.first][oldPos.second] = 2;
+            this->mazeMap[newPos.first][newPos.second] = 3;
+            // this->testMap[oldPos.first][oldPos.second] = 2;
+            // this->testMap[newPos.first][newPos.second] = 3;
             this->emptyCell.insert(emptyCell.begin() + i, oldPos);
         }
     }
@@ -297,7 +290,7 @@ void World::updatePlayer(Player *player)
         if (creature.second->getPos() == newPos)
         {
             inCombat(player, creature.second);
-            
+
             break;
         }
     }
@@ -324,15 +317,21 @@ void World::inCombat(Player *player, Creature *creature)
         monsterDMG = 1;
     creature->setHipPoint(creature->getHitPoint() - playerDMG);
     player->setHipPoint(player->getHitPoint() - monsterDMG);
-    if (player->getHitPoint()<=0){
+    if (player->getHitPoint() <= 0)
+    {
         this->endGame();
     }
-    if(creature->getHitPoint()<=0){
-        creature->setVisual(' ',1);
+    if (creature->getHitPoint() <= 0)
+    {
+        player->setHipPoint(player->getHitPoint() + 1);
+        creature->setVisual(' ', 1);
         emptyCell.push_back(creature->getPos());
     }
 }
 
-void World::endGame(){
-    cout<<"Game over"<<endl;
+void World::endGame()
+{
+    DeathAnimation deathending;
+    deathending.play();
+    cout << "Game over" << endl;
 }

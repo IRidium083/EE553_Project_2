@@ -11,7 +11,7 @@ int main()
     
     // Chose how difiicult the maze is
     //Maze maze = Maze::createMazeByDifficulty(difficulty); 
-    Maze maze = Maze::createMazeBySize(20,30,30);
+    Maze maze = Maze::createMazeBySize(10,10,10);
     maze.display(); 
     vector<pair<int, int>> emptyCells = maze.getEmptyCells();
 
