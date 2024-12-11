@@ -24,11 +24,11 @@ public:
     void generate();                // Entry function to generate the maze
     int** getMaze();                // Return the maze grid for external modifications
     void display();                 // Display the maze
-    Maze createMazeBySize(int width, int height); // The temporary function is convenient for changing the maze size when needed
     pair<int,int> getSize();       //return size of the maze
     vector<pair<int, int>> getEmptyCells(); // Get all path coordinates
     void addExtraConnections(int count); // Add extra connections (break additional walls) to increase the maze's complexity
     vector<pair<int, int>>getStartAndEndPoints(); //// Generate random start and end points
+    Maze createMazeBySize(int width, int height); // The temporary function is convenient for changing the maze size when needed
 
     static Maze createMazeByDifficulty(const string& difficulty); // Create a maze based on difficulty
     static string selectDifficulty(); // Select difficulty level

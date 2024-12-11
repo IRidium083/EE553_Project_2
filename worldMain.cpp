@@ -1,4 +1,7 @@
 #include "World/World.h"
+#include <chrono>
+#include <thread>
+
 
 int main()
 {
@@ -8,7 +11,7 @@ int main()
     world.makeTestMap();
     for (int i = 4; i < 15; i++)
     { // cratrue ID starts from 4
-        Creature newCreatre("Monster" + i, i);
+        Creature newCreatre("Monster" + to_string(i), i);
         newCreatre.setVisual('M', 1);
         world.addCreature(newCreatre);
     }
@@ -26,13 +29,13 @@ int main()
     while (1)
     {
         newPlayer.readCommand();
-        Sleep(100);
+        this_thread::sleep_for(std::chrono::milliseconds(100));
         cout << "planer commands read" << endl;
         world.updatePlayer(newPlayer);
         system("cls");
-        Sleep(10);
+        this_thread::sleep_for(std::chrono::milliseconds(10));
         world.display(newPlayer);
-        Sleep(10);
+        this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
     return 0;
