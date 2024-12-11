@@ -22,9 +22,11 @@ private:
     int **mazeMap;
     int **window;
     int **mist;
+    bool running=true;
     bool DEBUG = false;
-    // Player player;
+ 
     vector<pair<int, int>> emptyCell;
+    pair<int,int> endCell;
     map<int, Creature*> creatureList;
 
 public:
@@ -36,6 +38,7 @@ public:
     void debug(bool);
     void loadMaze(int**);
     void loadEmpty(vector<pair<int,int>>);
+    void loadEndCell(pair<int,int>);
 
     void makeTestMap();
     void makeMist();
@@ -52,7 +55,8 @@ public:
     void updateWindow();
 
     void inCombat(Player *, Creature *);
-    void endGame();
+    void endGame(string);
+    bool isRunning();
     
 };
 

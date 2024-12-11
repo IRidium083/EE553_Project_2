@@ -12,17 +12,18 @@ int main()
 
     //Maze maze = Maze::createMazeByDifficulty("easy");
     Maze maze = Maze::createMazeBySize(10,10,10);
-    cout<<"Player at: "<<maze.getStartAndEndPoints()[0].first<<","<<maze.getStartAndEndPoints()[0].second<<endl;
-    cout<<"Goal at: "<<maze.getStartAndEndPoints()[1].first<<","<<maze.getStartAndEndPoints()[1].second<<endl;
-    maze.display();
+    // cout<<"Player at: "<<maze.getStartAndEndPoints()[0].first<<","<<maze.getStartAndEndPoints()[0].second<<endl;
+    // cout<<"Goal at: "<<maze.getStartAndEndPoints()[1].first<<","<<maze.getStartAndEndPoints()[1].second<<endl;
+    // maze.display();
     int height = maze.getSize().first;
     int width = maze.getSize().second;
     World world(height, width);
     world.makeMist();
-    cout << "load maze" << endl;
-    world.loadEmpty(maze.getEmptyCells());
+     world.loadEmpty(maze.getEmptyCells());
     cout << "empty cell loaded" << endl;
+    world.loadEndCell(maze.getStartAndEndPoints()[1]);
     world.loadMaze(maze.getMaze());
+    
     cout << "maze loaded, size: " << world.getSize().first << "," << world.getSize().second << endl;
     
     world.display();
@@ -45,8 +46,9 @@ for (int i = 4; i < 5; i++)
     world.display();
 
     Player *newPlayer = new Player();
-    newPlayer->setPos(make_pair(2,2));
-    cout<<"Player at: "<<maze.getStartAndEndPoints()[0].first<<","<<maze.getStartAndEndPoints()[0].second<<endl;
+    //cout<<"Player at: "<<maze.getStartAndEndPoints()[0].first<<","<<maze.getStartAndEndPoints()[0].second<<endl;
+    newPlayer->setPos(maze.getStartAndEndPoints()[0]);
+    //cout<<"Player at: "<<maze.getStartAndEndPoints()[0].first<<","<<maze.getStartAndEndPoints()[0].second<<endl;
     newPlayer->setVisual('P', 2);
     newPlayer->setHipPoint(10);
     newPlayer->setAttack(4);
@@ -55,7 +57,7 @@ for (int i = 4; i < 5; i++)
     world.addPlayer(newPlayer);
     cout << "Player added" << endl;
     world.display(newPlayer);
-    while (1)
+    while (world.isRunning())
     {
         newPlayer->readCommand();
         this_thread::sleep_for(std::chrono::milliseconds(100));

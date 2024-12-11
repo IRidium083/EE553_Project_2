@@ -23,7 +23,7 @@ Maze::Maze(int width, int height) : width(width), height(height)
     {
         for (int j = 0; j < width; ++j)
         {
-            grid[i][j] = 0; // 0 represents a wall
+            grid[i][j] = 1; // 0 represents a wall
         }
     }
 }
@@ -70,7 +70,7 @@ void Maze::generate()
 // Recursive function to generate the maze
 void Maze::generateMaze(int x, int y)
 {
-    grid[y][x] = 1; // Mark the current cell as a path
+    grid[y][x] = 2; // Mark the current cell as a path
 
     // Define 4 directions {dx, dy}
     vector<pair<int, int>> directions =
@@ -86,10 +86,10 @@ void Maze::generateMaze(int x, int y)
         int ny = y + dir.second; // Next cell's y-coordinate
 
         // Check if the next cell is within bounds and is a wall
-        if (nx > 1 && nx < width - 1 && ny > 1 && ny < height - 1 && grid[ny][nx] == 0)
+        if (nx > 1 && nx < width - 1 && ny > 1 && ny < height - 1 && grid[ny][nx] == 1)
         {
             // Remove the wall between the current cell and the next cell
-            grid[y + dir.second / 2][x + dir.first / 2] = 1;
+            grid[y + dir.second / 2][x + dir.first / 2] = 2;
             // Recursively generate the maze from the next cell
             generateMaze(nx, ny);
         }
@@ -105,7 +105,7 @@ vector<pair<int, int>> Maze::getEmptyCells()
     {
         for (int j = 0; j < width; ++j)
         {
-            if (grid[i][j] == 1)
+            if (grid[i][j] == 2)
             {
                 emptyCells.push_back(make_pair(i, j)); // Add path cell to the vector
             }
@@ -186,12 +186,12 @@ void Maze::display()
     {
         for (int j = 0; j < width; ++j)
         {
-            if (grid[i][j] == 1)
+            if (grid[i][j] == 2)
             {
                 // Represent paths with narrow characters
                 cout << " ";
             }
-            else if (grid[i][j] == 0)
+            else if (grid[i][j] == 1)
             {
                 // Represent walls with continuous wide characters
                 cout << "@";
@@ -221,10 +221,10 @@ void Maze::addExtraConnections(int count)
         int y = rand() % height;
 
         // Make sure it is not out of range
-        if (x > 1 && x < width - 1 && y > 1 && y < height - 1 && grid[y][x] == 0)
+        if (x > 1 && x < width - 1 && y > 1 && y < height - 1 && grid[y][x] == 1)
         {
             // Make the wall become round
-            grid[y][x] = 1;
+            grid[y][x] = 2;
         }
     }
 }
@@ -241,7 +241,7 @@ vector<pair<int, int>> Maze::getStartAndEndPoints()
         int x = rand() % width;
         int y = rand() % height;
 
-        if (grid[y][x] == 1)
+        if (grid[y][x] == 2)
         {
             start = {x, y};
             //grid[y][x] = -1; // Mark the start cell as -1
@@ -255,7 +255,7 @@ vector<pair<int, int>> Maze::getStartAndEndPoints()
         int x = rand() % width;
         int y = rand() % height;
 
-        if (grid[y][x] == 1)
+        if (grid[y][x] == 2)
         {
             end = {x, y};
             int distance = abs(start.first - end.first) + abs(start.second - end.second);

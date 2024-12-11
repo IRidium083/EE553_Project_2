@@ -39,18 +39,17 @@ pair<int, int> World::getSize()
     return make_pair(this->height, this->width);
 }
 
+void World::loadEndCell(pair<int, int> endCell)
+{
+    this->endCell = endCell;
+}
+
 void World::loadMaze(int **maze)
 {
     this->mazeMap = maze;
-    for (int i = 0; i < this->height; i++)
-    {
-        for (int j = 0; j < this->width; j++)
-        {
-            int temp = mazeMap[i][j] + 1;
-            mazeMap[i][j] = temp;
-        }
-    }
+    maze[this->endCell.first][this->endCell.second] = -2;
 }
+
 void World::loadEmpty(vector<pair<int, int>> empty)
 {
     this->emptyCell = empty;
@@ -63,13 +62,14 @@ void World::display(Player *player)
     {
         for (int j = 0; j < this->width; j++)
         {
-            int cell = mazeMap[i][j]; // * mist[i][j];
+            int cell = mazeMap[i][j] * mist[i][j];
             // int cell = testMap[i][j] * mist[i][j];
             switch (cell)
             {
             case -1:
                 break;
             case -2:
+                cout << setw(2) << "\033[93m" << " " << '?' << "\033[0m";
                 break;
             case 0:
                 cout << setw(2) << "~"; // 0 for mist
@@ -100,12 +100,13 @@ void World::display()
         for (int j = 0; j < this->width; j++)
         {
             // int cell = testMap[i][j] * mist[i][j];
-            int cell = mazeMap[i][j]; // * mist[i][j];
+            int cell = mazeMap[i][j] * mist[i][j];
             switch (cell)
             {
             case -1:
                 break;
             case -2:
+                cout << setw(2) << "\033[93m" << " " << '?' << "\033[0m";
                 break;
             case 0:
                 cout << setw(2) << "~"; // ~ for mist
@@ -272,6 +273,10 @@ void World::updatePlayer(Player *player)
         break;
     }
     cout << newPos.first << "," << newPos.second << endl;
+    if (newPos == this->endCell)
+    {
+        endGame("win");
+    }
     for (int i = 0; i < emptyCell.size(); i++)
     {
         if (emptyCell.at(i) == newPos)
@@ -290,7 +295,6 @@ void World::updatePlayer(Player *player)
         if (creature.second->getPos() == newPos)
         {
             inCombat(player, creature.second);
-
             break;
         }
     }
@@ -319,7 +323,7 @@ void World::inCombat(Player *player, Creature *creature)
     player->setHipPoint(player->getHitPoint() - monsterDMG);
     if (player->getHitPoint() <= 0)
     {
-        this->endGame();
+        this->endGame("dead");
     }
     if (creature->getHitPoint() <= 0)
     {
@@ -329,9 +333,24 @@ void World::inCombat(Player *player, Creature *creature)
     }
 }
 
-void World::endGame()
+void World::endGame(string state)
 {
-    DeathAnimation deathending;
-    deathending.play();
-    cout << "Game over" << endl;
+    if (state == "dead")
+    {
+        DeathAnimation deathending;
+        deathending.play();
+        cout << "Game over" << endl;
+    }
+    else if (state == "win")
+    {
+        VictoryAnimation victoryending;
+        victoryending.play();
+    }
+    this->running = false;
+    exit(-1);
+}
+
+bool World::isRunning()
+{
+    return this->running;
 }
