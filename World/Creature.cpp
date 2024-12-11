@@ -1,18 +1,18 @@
 /* Author: Yihan Huang
 Date: Nov.15 2024
-Description: Function definitions for the class npc
+Description: Function definitions for the class Creature
 */
 
 #include "Creature.h"
 Creature ::Creature() {}
+
 // @brief Constructor function for Employee
 // @param string name of the Employee
 // @param int ID of the Employee
 // @return Employee class
-Creature ::Creature(string name, int ID)
+Creature ::Creature(string name)
 {
     this->name = name;
-    this->ID = ID;
 }
 
 // @brief get name of the employee
@@ -22,18 +22,26 @@ string Creature ::getName()
     return this->name;
 }
 
-// @brief get ID of the creature
-// @return int ID of the crature
-int Creature ::getID()
-{
-    return this->ID;
-}
-
 // @brief get position of the npc
 // @return int[2] position (x,y) of the npc
 pair<int, int> Creature ::getPos()
 {
     return this->pos;
+}
+
+int Creature::getHitPoint()
+{
+    return this->hitPoint;
+}
+
+int Creature::getAttack()
+{
+    return this->attack;
+}
+
+int Creature::getDefence()
+{
+    return this->defence;
 }
 
 // @brief set name of the npc
@@ -52,13 +60,21 @@ void Creature ::setPos(pair<int, int> pos)
     this->pos = pos;
 }
 
-// @brief set layer of the npc
-// @param int layer of the npc
-// @return void
-void Creature ::setID(int id)
+void Creature::setHipPoint(int hp)
 {
-    this->ID = id;
+    this->hitPoint = hp;
 }
+
+void Creature::setAttack(int atk)
+{
+    this->attack = atk;
+}
+
+void Creature::setDefence(int def)
+{
+    this->defence = def;
+}
+
 void Creature::setVisual(char icon, int col)
 {
     this->icon = icon;
@@ -68,11 +84,21 @@ void Creature::displayCreature()
 {
     switch (this->col)
     {
-    case 1:
+    case 1: // Red
         cout << setw(2) << "\033[31m" << " " << this->icon << "\033[0m";
         break;
-    case 2:
+    case 2: // Green
         cout << setw(2) << "\033[32m" << " " << this->icon << "\033[0m";
+        break;
+    case 3: // Yellow
+        cout << setw(2) << "\033[33m" << " " << this->icon << "\033[0m";
+        break;
+    case 4: // Blue
+        cout << setw(2) << "\033[34m" << " " << this->icon << "\033[0m";
+        break;
+    case 5: // Magenta
+        cout << setw(2) << "\033[35m" << " " << this->icon << "\033[0m";
+        break;
     default:
         break;
     }

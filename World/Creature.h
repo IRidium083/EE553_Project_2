@@ -20,10 +20,10 @@ protected:
 
 public:
     Creature();
-    Creature(string, int);
+    Creature(string);
     string getName();
     pair<int, int> getPos();
-    int getID();
+    virtual int getID();
 
     int getHitPoint();
     int getAttack();
@@ -31,8 +31,8 @@ public:
 
     void setName(string);
     void setPos(pair<int, int>);
-    void setID(int);
-
+    virtual void setID(int);
+    
     void setHipPoint(int);
     void setAttack(int);
     void setDefence(int);
