@@ -13,41 +13,45 @@
 class World
 {
 private:
-    int height;
-    int width;
+    int turn;       // total number of turns of the game
+    int height;     //map height
+    int width;      //map width
     int **testMap;
     int **mazeMap;
     int **window;
     int **mist;
+    bool DEBUG = false;
     // Player player;
     vector<pair<int, int>> emptyCell;
-    map<int, Creature> creatureList;
-    int turn;
+    map<int, Creature*> creatureList;
 
 public:
     World(int, int);
     ~World();
 
     pair<int,int> getSize();
-    
+    void addTurn();
+    void debug(bool);
     void loadMaze(int**);
     void loadEmpty(vector<pair<int,int>>);
 
     void makeTestMap();
     void makeMist();
-    void addCreature(Creature);
-    void addPlayer(Player);
+    void addCreature(Creature*);
+    void addPlayer(Player*);
 
-    void display(Player);
+    void display(Player*);
     void display();
     void displayWindow();
 
     void updateMist(pair<int, int> pos,int range);
     void updateCreature();
-    void updatePlayer(Player &);
+    void updatePlayer(Player *);
     void updateWindow();
 
-    void inCombat(Player &, Creature &);
+    void inCombat(Player *, Creature *);
+    void endGame();
+    
 };
 
 #endif
