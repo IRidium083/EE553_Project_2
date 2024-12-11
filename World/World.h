@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <map>
-#include <windows.h>
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 #include "Monster.h"
 #include "Player.h"
 // #include "Maze.h"

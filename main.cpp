@@ -1,15 +1,20 @@
 #include "World/World.h"
 #include "Maze/Maze.h"
+#include "Animation/AnimationManager.h"
+#include <chrono>
+#include <thread>
 
 int main()
 {
-    //Maze maze = Maze::createMazeByDifficulty("easy");
-    Maze maze = Maze::createMazeBySize(30,50);
-    //int height = maze.getSize().first;
-    //int width = maze.getSize().second;
-    World world(20, 20);
-    world.debug(true);
-    world.makeTestMap();
+    // Play the opening animation
+    OpeningAnimation opening;
+    opening.play();
+
+    Maze maze = Maze::createMazeByDifficulty("easy");
+    //Maze maze = Maze::createMazeBySize(30,50);
+    int height = maze.getSize().first;
+    int width = maze.getSize().second;
+    World world(height, width);
     world.makeMist();
     cout << "load maze" << endl;
     //world.loadEmpty(maze.getEmptyCells());
@@ -21,12 +26,10 @@ int main()
     for (int i = 4; i < 10; i++)
     { // cratrue ID starts from 4
 
-        Monster newMonster("Monster" + i, i);
-        newMonster.setVisual('M', 1);
-        newMonster.setHipPoint(10);
-        newMonster.setAttack(2);
-        newMonster.setDefence(4);
-        world.addCreature(newMonster);
+        Creature newCreatre("Monster" + to_string(i), i);
+        newCreatre.setVisual('M', 1);
+
+        world.addCreature(newCreatre);
         cout << i << endl;
     }
     cout << "creature added" << endl;
@@ -49,14 +52,23 @@ int main()
     while (1)
     {
         newPlayer.readCommand();
-        Sleep(100);
+        this_thread::sleep_for(std::chrono::milliseconds(100));
         cout << "planer commands read" << endl;
         world.updatePlayer(newPlayer);
         system("cls");
-        Sleep(10);
+        this_thread::sleep_for(std::chrono::milliseconds(10));
         world.display(newPlayer);
-        Sleep(10);
+        this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        // // Play the dead animation
+        // DeathAnimation deathending;
+        // deathending.play();
     }
+
+
+    // Play the ending animation
+    VictoryAnimation ending;
+    ending.play();
     
     return 0;
 }
