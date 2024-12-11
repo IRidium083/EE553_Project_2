@@ -4,7 +4,7 @@ Description: World class. Includes map, creatures, and animation. And their inte
 */
 
 #include "World.h"
-#include "Animation/AnimationManager.h"
+#include "../Animation/AnimationManager.h"
 World::World(int width, int height)
 {
     this->width = width;
@@ -53,7 +53,7 @@ void World::loadMaze(int **maze)
 void World::loadEmpty(vector<pair<int, int>> empty)
 {
     this->emptyCell = empty;
-    cout << "size of empty cell: " << empty.size() << endl;
+    // cout << "size of empty cell: " << empty.size() << endl;
 }
 void World::display(Player *player)
 {
@@ -185,7 +185,7 @@ void World::makeTestMap()
 
 void World::makeMist()
 {
-    cout << "start create mist" << endl;
+    // cout << "start create mist" << endl;
     this->mist = new int *[height];
     for (int i = 0; i < height; i++)
     {
@@ -198,7 +198,7 @@ void World::makeMist()
             this->mist[i][j] = 0; // 0: mist in cell, 1: no mist in cell
         }
     }
-    cout << "mist created" << endl;
+    // cout << "mist created" << endl;
 }
 
 void World::addCreature(Creature *newCreature)
@@ -211,8 +211,9 @@ void World::addCreature(Creature *newCreature)
     emptyCell.erase(emptyCell.begin() + i); // erase the cell from empty cell vector
 
     newCreature->setPos(newPos);
-    int ID = newCreature->getID();
-    cout << "Creature ID: " << ID << endl;
+    int ID = newCreature->getID(); 
+    // cout << "Creature ID: " << ID << endl;
+    this->mazeMap[newPos.first][newPos.second] = ID;
     this->creatureList.emplace(ID, newCreature);
 }
 

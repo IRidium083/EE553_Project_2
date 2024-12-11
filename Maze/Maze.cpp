@@ -111,7 +111,7 @@ vector<pair<int, int>> Maze::getEmptyCells()
             }
         }
     }
-    cout << "emptycell size: " << emptyCells.size() << endl;
+    // cout << "emptycell size: " << emptyCells.size() << endl;
     return emptyCells;
 }
 
@@ -122,20 +122,20 @@ Maze Maze::createMazeByDifficulty(const string &difficulty)
 
     if (difficulty == "easy")
     {
-        width = 20; // Small size
-        height = 20;
+        width = 15; // Small size
+        height = 15;
         extraPaths = 10; // Extra paths for easy
     }
     else if (difficulty == "medium")
     {
-        width = 30; // Medium size
-        height = 30;
+        width = 20; // Medium size
+        height = 20;
         extraPaths = 30; // Extra paths for easy
     }
     else if (difficulty == "hard")
     {
-        width = 40; // Large size
-        height = 40;
+        width = 30; // Large size
+        height = 30;
         extraPaths = 50; // Extra paths for easy
     }
 
@@ -260,7 +260,7 @@ vector<pair<int, int>> Maze::getStartAndEndPoints()
             end = {x, y};
             int distance = abs(start.first - end.first) + abs(start.second - end.second);
 
-            if (start != end && distance >= (width + height) / 4) // Ensure the end point is not the same as the start and is sufficiently far away.
+            if (start != end && distance >= (width + height) / 3) // Ensure the end point is not the same as the start and is sufficiently far away.
 
             {
                 //grid[y][x] = -2; // Mark the end cell as -2

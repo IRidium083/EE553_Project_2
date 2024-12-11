@@ -8,8 +8,8 @@
 #ifdef _WIN32
     #include <windows.h>
 #endif
-#include "World/Monster.h"
-#include "World/Player.h"
+#include "Monster.h"
+#include "Player.h"
 // #include "Maze.h"
 
 class World
