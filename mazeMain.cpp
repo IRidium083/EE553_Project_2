@@ -7,10 +7,11 @@ using namespace std;
 
 int main() 
 {
-    string difficulty = Maze::selectDifficulty();
+    //string difficulty = Maze::selectDifficulty();
     
     // Chose how difiicult the maze is
-    Maze maze = Maze::createMazeByDifficulty(difficulty); 
+    //Maze maze = Maze::createMazeByDifficulty(difficulty); 
+    Maze maze = Maze::createMazeBySize(20,30,30);
     maze.display(); 
     vector<pair<int, int>> emptyCells = maze.getEmptyCells();
 
