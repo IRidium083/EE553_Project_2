@@ -368,7 +368,7 @@ void World::inCombat(Player *player, Creature *creature)
         player->setHipPoint(player->getHitPoint() + 1);
         creature->setVisual(' ', 1);
         emptyCell.push_back(creature->getPos());
-        record["kills"] += 1;
+        
     }
 }
 
@@ -379,13 +379,13 @@ void World::endGame(string state)
         DeathAnimation deathending;
         deathending.play();
         cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
-             << " damage. You killed " << record["kills"] << " monsters." << endl;
+             << " damage. You killed " << record["dmg"]/10 << " monster(s)." << endl;
         delay(5000);
     }
     else if (state == "win")
     {
         cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
-             << " damage. You killed " << record["kills"] << " monsters." << endl;
+             << " damage. You killed " << record["dmg"]/10 << " monster(s)." << endl;
         delay(5000);
         VictoryAnimation victoryending;
         victoryending.play();

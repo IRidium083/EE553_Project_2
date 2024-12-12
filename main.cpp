@@ -8,7 +8,7 @@ int main()
 {
     // Play the opening animation
     OpeningAnimation opening;
-    // opening.play();
+    opening.play();
 
     // Generate maze
     string difficulty = Maze::selectDifficulty();
