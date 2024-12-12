@@ -12,6 +12,7 @@ protected:
     string name;
     pair<int, int> pos;
     int hitPoint;
+    int maxHP;
     int attack;
     int defence;
     int ID;
@@ -28,6 +29,7 @@ public:
     int getHitPoint();
     int getAttack();
     int getDefence();
+    int getMaxHP();
 
     void setName(string);
     void setPos(pair<int, int>);
@@ -36,7 +38,8 @@ public:
     void setHipPoint(int);
     void setAttack(int);
     void setDefence(int);
-
+    void setMaxHP(int);
+    
     void setVisual(char, int);
     void displayCreature();
 };

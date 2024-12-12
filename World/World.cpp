@@ -90,9 +90,11 @@ void World::display(Player *player)
         }
         cout << endl;
     }
-    cout << "Turn: " << this->turn << endl;
-    cout << "Player HP: " << player->getHitPoint() << endl;
+    // cout << "Turn: " << this->turn << endl;
+    // cout << "Player HP: " << player->getHitPoint() << endl;
+    this->printState(isCombat, player);
 }
+
 void World::display()
 {
     for (int i = 0; i < this->height; i++)
@@ -125,6 +127,32 @@ void World::display()
             }
         }
         cout << endl;
+    }
+}
+
+void World::printState(int state, Player *player)
+{
+    int hp = player->getHitPoint();
+    int maxHP = player->getMaxHP();
+    //cout << hp << ";" << maxHP << endl;
+    cout << "This is turn " << this->turn << ". Your HP is: " << hp << endl;
+    switch (state)
+    {
+    case 0: // normal moving
+        if (hp >= maxHP / 3 * 2)
+            cout << "You are walking confidently!" << endl;
+        else if (hp >= maxHP / 3 && hp < maxHP / 3 * 2)
+            cout << "You are walking worriedly!" << endl;
+        else if (hp < maxHP / 3)
+            cout << "You are walking painfully!" << endl;
+        break;
+    case 1: // in combat
+        cout << "You are in combat!" << endl;
+        cout << "You hit the enemy by: " << turnInfo["dmg"] << endl;
+        cout << "The enemy hit you by: " << turnInfo["wound"] << endl;
+        break;
+    default:
+        break;
     }
 }
 void World::displayWindow()
@@ -211,7 +239,7 @@ void World::addCreature(Creature *newCreature)
     emptyCell.erase(emptyCell.begin() + i); // erase the cell from empty cell vector
 
     newCreature->setPos(newPos);
-    int ID = newCreature->getID(); 
+    int ID = newCreature->getID();
     // cout << "Creature ID: " << ID << endl;
     this->mazeMap[newPos.first][newPos.second] = ID;
     this->creatureList.emplace(ID, newCreature);
@@ -252,12 +280,15 @@ void World::updateMist(pair<int, int> pos, int range)
 void World::updatePlayer(Player *player)
 {
 
-    cout << "comMand is:" << player->getCommand() << endl;
-    cout << "++" << endl;
+    // cout << "comMand is:" << player->getCommand() << endl;
+    // cout << "++" << endl;
     pair<int, int> oldPos = player->getPos();
     pair<int, int> newPos;
     switch (player->getCommand())
     {
+    case 'Q':
+        exit(-1);
+        break;
     case 'A':
         newPos = make_pair(player->getPos().first, player->getPos().second - 1); // move 1 cell left
         break;
@@ -273,7 +304,7 @@ void World::updatePlayer(Player *player)
     default:
         break;
     }
-    cout << newPos.first << "," << newPos.second << endl;
+    // cout << newPos.first << "," << newPos.second << endl;
     if (newPos == this->endCell)
     {
         endGame("win");
@@ -282,6 +313,7 @@ void World::updatePlayer(Player *player)
     {
         if (emptyCell.at(i) == newPos)
         {
+            isCombat = 0;
             player->setPos(newPos);
             this->emptyCell.erase(emptyCell.begin() + i);
             this->mazeMap[oldPos.first][oldPos.second] = 2;
@@ -296,17 +328,18 @@ void World::updatePlayer(Player *player)
         if (creature.second->getPos() == newPos)
         {
             inCombat(player, creature.second);
+            isCombat = 1;
             break;
         }
     }
-
-    cout << "update finish" << endl;
+    turnInfo["hp"] = player->getHitPoint();
+    // cout << "update finish" << endl;
 }
 
 void World::inCombat(Player *player, Creature *creature)
 {
-    cout << "Player HP: " << player->getHitPoint() << endl;
-    cout << creature->getName() << " HP: " << creature->getHitPoint() << endl;
+    // cout << "Player HP: " << player->getHitPoint() << endl;
+    // cout << creature->getName() << " HP: " << creature->getHitPoint() << endl;
     int playerDMG, monsterDMG;
     int playerATK = player->getAttack();
     int monsterATK = creature->getAttack();
@@ -322,6 +355,10 @@ void World::inCombat(Player *player, Creature *creature)
         monsterDMG = 1;
     creature->setHipPoint(creature->getHitPoint() - playerDMG);
     player->setHipPoint(player->getHitPoint() - monsterDMG);
+    turnInfo["dmg"] = playerDMG;
+    turnInfo["wound"] = monsterDMG;
+    record["dmg"] += playerDMG;
+    record["wound"] += monsterDMG;
     if (player->getHitPoint() <= 0)
     {
         this->endGame("dead");
@@ -331,6 +368,7 @@ void World::inCombat(Player *player, Creature *creature)
         player->setHipPoint(player->getHitPoint() + 1);
         creature->setVisual(' ', 1);
         emptyCell.push_back(creature->getPos());
+        record["kills"] += 1;
     }
 }
 
@@ -340,10 +378,15 @@ void World::endGame(string state)
     {
         DeathAnimation deathending;
         deathending.play();
-        cout << "Game over" << endl;
+        cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
+             << " damage. You killed " << record["kills"] << " monsters." << endl;
+        delay(5000);
     }
     else if (state == "win")
     {
+        cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
+             << " damage. You killed " << record["kills"] << " monsters." << endl;
+        delay(5000);
         VictoryAnimation victoryending;
         victoryending.play();
     }

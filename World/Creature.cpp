@@ -33,7 +33,9 @@ int Creature::getHitPoint()
 {
     return this->hitPoint;
 }
-
+int Creature::getMaxHP(){
+    return this->maxHP;
+}
 int Creature::getAttack()
 {
     return this->attack;
@@ -63,6 +65,10 @@ void Creature ::setPos(pair<int, int> pos)
 void Creature::setHipPoint(int hp)
 {
     this->hitPoint = hp;
+    
+}
+void Creature::setMaxHP(int hp){
+    this->maxHP=hp;
 }
 
 void Creature::setAttack(int atk)
@@ -84,10 +90,10 @@ void Creature::displayCreature()
 {
     switch (this->col)
     {
-    case 1: // Red
+    case 2: // Red
         cout << setw(2) << "\033[31m" << " " << this->icon << "\033[0m";
         break;
-    case 2: // Green
+    case 1: // Green
         cout << setw(2) << "\033[32m" << " " << this->icon << "\033[0m";
         break;
     case 3: // Yellow

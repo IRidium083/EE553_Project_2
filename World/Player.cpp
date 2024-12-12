@@ -10,15 +10,12 @@ Player::Player(string name, pair<int, int> pos)
     this->pos = pos;
 }
 
-
-
 void Player::readCommand(){
-    cout << "Please enter the next moves :";
+    cout << "Please enter the next moves (W:left, D:right, W:up, S:down, Q: quit):"<<endl;
     char c;
     cin>>c;
     this->command=c;
 }
-
 
 char Player::getCommand(){
     return this->command;

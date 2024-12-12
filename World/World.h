@@ -24,7 +24,9 @@ private:
     int **mist;
     bool running=true;
     bool DEBUG = false;
- 
+    int isCombat=0;
+    map<string,int> record={{"kills",0},{"dmg",0},{"wound",0}};
+    map<string,int> turnInfo={{"hp",0},{"dmg",0},{"wound",0}};
     vector<pair<int, int>> emptyCell;
     pair<int,int> endCell;
     map<int, Creature*> creatureList;
@@ -35,7 +37,6 @@ public:
 
     pair<int,int> getSize();
     void addTurn();
-    void debug(bool);
     void loadMaze(int**);
     void loadEmpty(vector<pair<int,int>>);
     void loadEndCell(pair<int,int>);
@@ -48,6 +49,7 @@ public:
     void display(Player*);
     void display();
     void displayWindow();
+    void printState(int,Player*);
 
     void updateMist(pair<int, int> pos,int range);
     void updateCreature();
