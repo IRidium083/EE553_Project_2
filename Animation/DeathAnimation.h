@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Declare functions needed in DeathAnimation.cpp
+*/
+
 #ifndef DEATH_ANIMATION_H
 #define DEATH_ANIMATION_H
 

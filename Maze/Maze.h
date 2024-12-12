@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Declare functions needed in Maze.cpp
+*/
+
 #ifndef MAZE_H
 #define MAZE_H
 

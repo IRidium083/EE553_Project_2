@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Declare functions needed in AnimationTools.cpp
+*/
+
 #ifndef ANIMATION_TOOLS_H
 #define ANIMATION_TOOLS_H
 
