@@ -7,3 +7,6 @@ HOWTO:
 g++ main.cpp World\*.cpp Maze\*.cpp Animation\*.cpp -o game.exe
 .\game.exe
 ```
+for mac user I create a build.sh file, if you wanna run the file you can use commands as below:
+chmod +x build.sh
+./build.sh
