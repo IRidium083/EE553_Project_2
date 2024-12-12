@@ -226,7 +226,7 @@ void Maze::addExtraConnections(int count)
         int y = rand() % height;
 
         // Make sure it is not out of range
-        if (x > 1 && x < width - 1 && y > 1 && y < height - 1 && grid[y][x] == 1)
+        if (x > 2 && x < width - 2 && y > 2 && y < height - 2 && grid[y][x] == 1)
         {
             // Make the wall become round
             grid[y][x] = 2;
