@@ -73,7 +73,7 @@ int main()
         cout << "planer commands read" << endl;
         world.updatePlayer(newPlayer);
         world.addTurn();
-        //system("cls");
+        clearScreen();
         this_thread::sleep_for(std::chrono::milliseconds(10));
         world.display(newPlayer);
         this_thread::sleep_for(std::chrono::milliseconds(10));

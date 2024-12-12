@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Functions that help create animation
+*/
+
 #include "AnimationTools.h"
 
 void clearScreen() {

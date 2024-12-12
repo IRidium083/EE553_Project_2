@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Functions help to create the maze
+*/
+
 #include "Maze.h"
 #include <random>
 #include <algorithm>

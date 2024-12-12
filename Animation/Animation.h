@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Create superclass of animation
+*/
+
 #ifndef ANIMATION_H
 #define ANIMATION_H
 

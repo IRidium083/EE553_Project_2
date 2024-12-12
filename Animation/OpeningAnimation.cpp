@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Functions that create opening animation
+*/
+
 #include "OpeningAnimation.h"
 #include "AnimationTools.h" // Includes utility functions
 

@@ -1,3 +1,8 @@
+/* Author: David
+Date: Dec 2024
+Description: Functions that create victory animation
+*/
+
 #include "VictoryAnimation.h"
 #include "AnimationTools.h" // Includes utility functions
 
