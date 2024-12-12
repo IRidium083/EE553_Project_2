@@ -11,6 +11,8 @@ void OpeningAnimation::play()
     clearScreen(); // Clear the console screen for a fresh display
     gradualPrint("========== Welcome to the Maze Game ==========", 50); // Print the title with a typing animation
     delay(500); // Short delay for dramatic effect
+    gradualPrint("This game is created by YenJun,Tsui and YiHan Huang", 50);
+    delay(500); // Short delay for dramatic effect
     gradualPrint("A mysterious maze awaits you...", 50); // Print the introduction text
     delay(1000); // Delay before the animation begins
 
