@@ -1,8 +1,13 @@
+/* Author: Yihan Huang, David
+Date: Dec.11 2024
+Description: Main function for running the game.
+*/
+
 #include "World/World.h"
 #include "Maze/Maze.h"
 #include "Animation/AnimationManager.h"
-#include <chrono>
-#include <thread>
+// #include <chrono>
+// #include <thread>
 
 int main()
 {
@@ -13,15 +18,17 @@ int main()
     // Generate maze
     string difficulty = Maze::selectDifficulty();
     Maze maze = Maze::createMazeByDifficulty(difficulty);
+
+    // Initialize the world
     int height = maze.getSize().first;
     int width = maze.getSize().second;
     World world(height, width);
     world.makeMist();
     world.loadEmpty(maze.getEmptyCells());
-
     world.loadEndCell(maze.getStartAndEndPoints()[1]);
     world.loadMaze(maze.getMaze());
-
+    
+    //config monsters
     int monster_quantity = 0;
     if (difficulty == "easy")
         monster_quantity = 3;
@@ -42,7 +49,7 @@ int main()
         newCreature->setDefence(2);
         world.addCreature(newCreature);
     }
-    cout << "World created" << endl;
+    //cout << "World created" << endl;
 
     // add player
     Player *newPlayer = new Player();
@@ -73,7 +80,7 @@ int main()
     {
         newPlayer->readCommand();
         delay(100);
-        cout << "planer commands read" << endl;
+        //cout << "planer commands read" << endl;
         world.updatePlayer(newPlayer);
         world.addTurn();
         clearScreen();

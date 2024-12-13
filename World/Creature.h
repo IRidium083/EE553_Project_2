@@ -29,17 +29,17 @@ public:
     int getHitPoint();
     int getAttack();
     int getDefence();
-    int getMaxHP();
+    virtual int getMaxHP();
 
     void setName(string);
     void setPos(pair<int, int>);
     virtual void setID(int);
-    
+
     void setHipPoint(int);
     void setAttack(int);
     void setDefence(int);
-    void setMaxHP(int);
-    
+    virtual void setMaxHP(int);
+
     void setVisual(char, int);
     void displayCreature();
 };

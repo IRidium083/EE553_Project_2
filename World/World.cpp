@@ -5,6 +5,10 @@ Description: World class. Includes map, creatures, and animation. And their inte
 
 #include "World.h"
 #include "../Animation/AnimationManager.h"
+
+// @brief constructor function
+// @param int width of the map
+// @param int width of the map
 World::World(int width, int height)
 {
     this->width = width;
@@ -13,6 +17,7 @@ World::World(int width, int height)
     srand(time(0));
 };
 
+// @brief destructor function, delete maps
 World::~World()
 {
     if (this->testMap != nullptr)
@@ -29,32 +34,39 @@ World::~World()
     }
 }
 
+// @brief constructor function
 void World::addTurn()
 {
     this->turn++;
 }
 
+// @brief get size of the map
 pair<int, int> World::getSize()
 {
     return make_pair(this->height, this->width);
 }
 
+// @brief load end cell from maze
 void World::loadEndCell(pair<int, int> endCell)
 {
     this->endCell = endCell;
 }
 
+// @brief load maze
+// @param int ** double pointer to maze map
 void World::loadMaze(int **maze)
 {
     this->mazeMap = maze;
     maze[this->endCell.first][this->endCell.second] = -2;
 }
 
+// @brief load empty cells from maze
 void World::loadEmpty(vector<pair<int, int>> empty)
 {
     this->emptyCell = empty;
-    // cout << "size of empty cell: " << empty.size() << endl;
 }
+
+// @brief display the world with player
 void World::display(Player *player)
 {
     updateMist(player->getPos(), 2);
@@ -63,7 +75,7 @@ void World::display(Player *player)
         for (int j = 0; j < this->width; j++)
         {
             int cell = mazeMap[i][j] * mist[i][j];
-            // int cell = testMap[i][j] * mist[i][j];
+            // int cell = testMap[i][j] * mist[i][j];  // for debug only
             switch (cell)
             {
             case -1:
@@ -90,18 +102,17 @@ void World::display(Player *player)
         }
         cout << endl;
     }
-    // cout << "Turn: " << this->turn << endl;
-    // cout << "Player HP: " << player->getHitPoint() << endl;
     this->printState(isCombat, player);
 }
 
+// @brief display the world without player
 void World::display()
 {
     for (int i = 0; i < this->height; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-            // int cell = testMap[i][j] * mist[i][j];
+            // int cell = testMap[i][j] * mist[i][j]; // for debug only
             int cell = mazeMap[i][j] * mist[i][j];
             switch (cell)
             {
@@ -130,11 +141,11 @@ void World::display()
     }
 }
 
+// @brief display state of the player
 void World::printState(int state, Player *player)
 {
     int hp = player->getHitPoint();
     int maxHP = player->getMaxHP();
-    //cout << hp << ";" << maxHP << endl;
     cout << "This is turn " << this->turn << ". Your HP is: " << hp << endl;
     switch (state)
     {
@@ -155,34 +166,8 @@ void World::printState(int state, Player *player)
         break;
     }
 }
-void World::displayWindow()
-{
-    int windowHeight = 5;
-    int windowWidth = 5;
-    for (int i = 0; i < windowHeight; i++)
-    {
-        for (int j = 0; j < windowWidth; j++)
-        {
-            if (i == 0 || i == windowHeight - 1)
-            {
-                if (j == 0 || j == windowWidth - 1)
-                {
-                    cout << "+";
-                }
-                else
-                {
-                    cout << "-";
-                }
-            }
-            else if (j == 0 || j == windowWidth - 1)
-            {
-                cout << "|";
-            }
-        }
-        cout << endl;
-    }
-}
 
+// @brief make test map for debug
 void World::makeTestMap()
 {
     cout << "start create test map" << endl;
@@ -211,6 +196,7 @@ void World::makeTestMap()
     cout << "test map created" << endl;
 }
 
+// @brief generate mist map
 void World::makeMist()
 {
     // cout << "start create mist" << endl;
@@ -226,9 +212,9 @@ void World::makeMist()
             this->mist[i][j] = 0; // 0: mist in cell, 1: no mist in cell
         }
     }
-    // cout << "mist created" << endl;
 }
 
+// @brief add creature to the world
 void World::addCreature(Creature *newCreature)
 {
 
@@ -240,18 +226,19 @@ void World::addCreature(Creature *newCreature)
 
     newCreature->setPos(newPos);
     int ID = newCreature->getID();
-    // cout << "Creature ID: " << ID << endl;
     this->mazeMap[newPos.first][newPos.second] = ID;
     this->creatureList.emplace(ID, newCreature);
 }
 
+// @brief add player to the world
 void World::addPlayer(Player *player)
 {
     pair<int, int> playerPos = player->getPos();
     this->mazeMap[playerPos.first][playerPos.second] = 3;
-    // this->testMap[playerPos.first][playerPos.second] = 3;
+    // this->testMap[playerPos.first][playerPos.second] = 3; // for debug only
 }
 
+// @brief update creature in the world
 void World::updateCreature()
 {
     cout << "start update creature" << endl;
@@ -260,10 +247,12 @@ void World::updateCreature()
     {
         cout << "check creature: " << iter->first << iter->second->getName() << endl;
 
-        // testMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
+        // testMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first; // for debug only
         mazeMap[iter->second->getPos().first][iter->second->getPos().second] = iter->first;
     }
 }
+
+// @brief update mist map
 void World::updateMist(pair<int, int> pos, int range)
 {
     for (int i = pos.first - range; i <= pos.first + range; i++)
@@ -277,11 +266,10 @@ void World::updateMist(pair<int, int> pos, int range)
         }
     }
 }
+
+// @brief update player
 void World::updatePlayer(Player *player)
 {
-
-    // cout << "comMand is:" << player->getCommand() << endl;
-    // cout << "++" << endl;
     pair<int, int> oldPos = player->getPos();
     pair<int, int> newPos;
     switch (player->getCommand())
@@ -304,47 +292,45 @@ void World::updatePlayer(Player *player)
     default:
         break;
     }
-    // cout << newPos.first << "," << newPos.second << endl;
     if (newPos == this->endCell)
     {
-        endGame("win");
+        endGame("win"); // the player wins when reach end cell
     }
     for (int i = 0; i < emptyCell.size(); i++)
     {
-        if (emptyCell.at(i) == newPos)
+        if (emptyCell.at(i) == newPos) // search in empty cells
         {
             isCombat = 0;
             player->setPos(newPos);
-            this->emptyCell.erase(emptyCell.begin() + i);
+            this->emptyCell.erase(emptyCell.begin() + i); // remove new pos from empty cells
             this->mazeMap[oldPos.first][oldPos.second] = 2;
             this->mazeMap[newPos.first][newPos.second] = 3;
-            // this->testMap[oldPos.first][oldPos.second] = 2;
-            // this->testMap[newPos.first][newPos.second] = 3;
-            this->emptyCell.insert(emptyCell.begin() + i, oldPos);
+            // this->testMap[oldPos.first][oldPos.second] = 2;  // for debug only
+            // this->testMap[newPos.first][newPos.second] = 3;  // for debug only
+            this->emptyCell.insert(emptyCell.begin() + i, oldPos); // add old pos to empty cells
         }
     }
     for (pair<int, Creature *> creature : this->creatureList)
     {
         if (creature.second->getPos() == newPos)
         {
-            inCombat(player, creature.second);
+            inCombat(player, creature.second); // get in combat if player reaches monster
             isCombat = 1;
             break;
         }
     }
     turnInfo["hp"] = player->getHitPoint();
-    // cout << "update finish" << endl;
 }
 
+// @brief combat function, calculate damage
 void World::inCombat(Player *player, Creature *creature)
 {
-    // cout << "Player HP: " << player->getHitPoint() << endl;
-    // cout << creature->getName() << " HP: " << creature->getHitPoint() << endl;
     int playerDMG, monsterDMG;
     int playerATK = player->getAttack();
     int monsterATK = creature->getAttack();
     int playerDEF = player->getDefence();
     int monsterDEF = creature->getDefence();
+
     if (playerATK > monsterDEF)
         playerDMG = playerATK - monsterDEF;
     else
@@ -353,39 +339,41 @@ void World::inCombat(Player *player, Creature *creature)
         monsterDMG = monsterATK - playerDEF;
     else
         monsterDMG = 1;
+
     creature->setHipPoint(creature->getHitPoint() - playerDMG);
     player->setHipPoint(player->getHitPoint() - monsterDMG);
     turnInfo["dmg"] = playerDMG;
     turnInfo["wound"] = monsterDMG;
     record["dmg"] += playerDMG;
     record["wound"] += monsterDMG;
-    if (player->getHitPoint() <= 0)
+
+    if (player->getHitPoint() <= 0) // player dies
     {
         this->endGame("dead");
     }
-    if (creature->getHitPoint() <= 0)
+    if (creature->getHitPoint() <= 0) // creature dies
     {
         player->setHipPoint(player->getHitPoint() + 1);
         creature->setVisual(' ', 1);
         emptyCell.push_back(creature->getPos());
-        
     }
 }
 
+// @brief end game function
 void World::endGame(string state)
 {
-    if (state == "dead")
+    if (state == "dead") // player dies
     {
         DeathAnimation deathending;
         deathending.play();
         cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
-             << " damage. You killed " << record["dmg"]/10 << " monster(s)." << endl;
+             << " damage. You killed " << record["dmg"] / 10 << " monster(s)." << endl;
         delay(5000);
     }
-    else if (state == "win")
+    else if (state == "win") // player wins
     {
         cout << "In your " << turn << " turns of advanture. " << "You received " << record["dmg"] << " damage. You delivered " << record["wound"]
-             << " damage. You killed " << record["dmg"]/10 << " monster(s)." << endl;
+             << " damage. You killed " << record["dmg"] / 10 << " monster(s)." << endl;
         delay(5000);
         VictoryAnimation victoryending;
         victoryending.play();
@@ -394,6 +382,7 @@ void World::endGame(string state)
     exit(-1);
 }
 
+// @brief if world is running
 bool World::isRunning()
 {
     return this->running;

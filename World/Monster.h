@@ -8,10 +8,8 @@ class Monster : public Creature
 {
 private:
     int speed;
-    
 
 public:
     Monster(string, int);
-
 };
 #endif
