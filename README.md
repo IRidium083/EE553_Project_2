@@ -18,4 +18,8 @@ chmod +x build.sh
 ./build.sh
 ```
 ## Play instruction:
+  The player will first choice the game difficulty by entering the following choices in the terminal:
+  ```easy``` or ```medium``` or ```hard```
+
+  
   Type ```W``` ```A``` ```S``` ```D``` in the terminal to move around. Type ```Q``` to quit.
